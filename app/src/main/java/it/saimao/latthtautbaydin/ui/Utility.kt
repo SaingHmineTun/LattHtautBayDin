@@ -24,4 +24,12 @@ object Utility {
         // Access data from the parsed object
         return jsonData!!
     }
+
+    val myanmarNumbers = arrayOf('၀', '၁', '၂', '၃', '၄', '၅', '၆', '၇', '၈', '၉');
+    fun convertToEngNum(myanmarNumber: String): Int {
+        return myanmarNumber.map {
+            myanmarNumbers.indexOf(it).toString()
+        }.joinToString("").toInt()
+
+    }
 }

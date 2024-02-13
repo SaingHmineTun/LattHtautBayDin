@@ -1,5 +1,6 @@
 package it.saimao.latthtautbaydin
 
+import it.saimao.latthtautbaydin.ui.Utility
 import org.junit.Test
 
 import org.junit.Assert.*
@@ -14,4 +15,12 @@ class ExampleUnitTest {
     fun addition_isCorrect() {
         assertEquals(4, 2 + 2)
     }
+
+    @Test
+    fun test_myanmarToEng() {
+        val engNumber = Utility.convertToEngNum("၁")
+        assertEquals(engNumber, 1)
+        assertEquals(Utility.convertToEngNum("၈၄"), 84)
+    }
+
 }
