@@ -1,5 +1,6 @@
 package it.saimao.latthtautbaydin.ui.screen
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -55,6 +56,7 @@ fun ChooseNumberScreen(
     modifier: Modifier = Modifier
 ) {
     val tabs = listOf("Latt Htaut", "Random")
+    Log.d("Kham", "Choose Number Screen")
 
     Column(modifier = modifier.fillMaxWidth()) {
         TabRow(selectedTabIndex = numberScreenTab) {

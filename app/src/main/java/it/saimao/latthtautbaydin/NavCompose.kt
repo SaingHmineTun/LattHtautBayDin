@@ -93,9 +93,9 @@ fun NavCompose(modifier: Modifier = Modifier) {
             composable(Destinations.Answer) {
                 viewModel.setAppName(R.string.your_answer)
                 val context = LocalContext.current
-                AnswerScreen(question = uiState.question,
+                AnswerScreen(questionNumber = uiState.question,
 
-                    number = uiState.number, navigateBack = {
+                    answerNumber = uiState.number, navigateBack = {
                         navController.popBackStack(Destinations.Home, false)
                     },
 
