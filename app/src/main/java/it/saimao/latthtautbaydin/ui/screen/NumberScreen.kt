@@ -16,6 +16,8 @@ import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.shape.CutCornerShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Tab
@@ -133,17 +135,22 @@ fun RandomScreen(onSelectNumber: (Int) -> Unit, modifier: Modifier = Modifier) {
             contentDescription = "Number Image"
         )
         Spacer(modifier = Modifier.height(48.dp))
-        Button(onClick = {
-            isSpinning = !isSpinning
-            buttonText = if (isSpinning) {
-                R.string.stop_spinning
-            } else {
-                onSelectNumber(imageResources.indexOf(imageResource) + 1)
-                R.string.start_spinning
-            }
-        }) {
+        Button(
+            onClick = {
+                isSpinning = !isSpinning
+                buttonText = if (isSpinning) {
+                    R.string.stop_spinning
+                } else {
+                    onSelectNumber(imageResources.indexOf(imageResource) + 1)
+                    R.string.start_spinning
+                }
+            },
+
+            shape = RoundedCornerShape(4.dp)
+        ) {
             Text(
                 text = stringResource(id = buttonText),
+
                 fontSize = 16.sp, fontWeight = FontWeight.ExtraBold
             )
         }
@@ -171,8 +178,11 @@ fun NumberScreen(onSelectNumber: (Int) -> Unit, modifier: Modifier = Modifier) {
                     onSelectNumber.invoke(
                         Utility.convertToEngNum(it)
                     )
-                }, modifier = Modifier
-                    .border(1.dp, MaterialTheme.colorScheme.primary)
+                },
+                modifier = Modifier
+                    .border(1.dp, MaterialTheme.colorScheme.primary,
+
+                        shape = CutCornerShape(2.dp),)
                     .size(56.dp)
             ) {
                 Text(
@@ -188,5 +198,5 @@ fun NumberScreen(onSelectNumber: (Int) -> Unit, modifier: Modifier = Modifier) {
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun LattHtautScreenPreview() {
-    RandomScreen(onSelectNumber = {})
+    NumberScreen(onSelectNumber = {})
 }
