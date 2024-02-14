@@ -99,8 +99,7 @@ fun HomeScreen(onSelectQuestion: (Int) -> Unit, modifier: Modifier = Modifier) {
             },
 
             modifier = Modifier
-                .fillMaxWidth()
-                .border(BorderStroke(width = 2.dp, color = MaterialTheme.colorScheme.primary)),
+                .fillMaxWidth(),
         )
         Spacer(modifier = Modifier.height(16.dp))
         CardList(listOfQuestion = uiState, onSelectQuestion = onSelectQuestion)
