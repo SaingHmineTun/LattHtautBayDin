@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">Latt Htaut Bay Din</string>
-    <string name="question" />
+    <string name="select_question">Select Question</string>
+    <string name="choose_number">Choose Number</string>
+    <string name="your_answer">Your Answer</string>
+    <string name="start_spinning">START SPINNING</string>
+    <string name="stop_spinning">STOP SPINNING</string>
 </resources>

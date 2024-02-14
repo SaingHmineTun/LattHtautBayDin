@@ -31,6 +31,7 @@ fun AnswerScreen(
     number: Int,
     navigateBack: () -> Unit,
     onShare: (question: String, answer: String) -> Unit,
+    modifier: Modifier = Modifier
 ) {
 
     val jsonData = Utility.getJsonData(LocalContext.current)
@@ -45,7 +46,7 @@ fun AnswerScreen(
 
 
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
             .padding(16.dp),
         verticalArrangement = Arrangement.Center,

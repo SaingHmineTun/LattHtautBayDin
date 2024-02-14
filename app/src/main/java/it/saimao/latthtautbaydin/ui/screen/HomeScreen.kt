@@ -1,6 +1,7 @@
 package it.saimao.latthtautbaydin.ui.screen
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -37,14 +38,12 @@ fun HomeScreen(onSelectQuestion: (Int) -> Unit, modifier: Modifier = Modifier) {
     var uiState by remember {
         mutableStateOf(questions)
     }
-
-
     var text by remember {
         mutableStateOf("")
     }
 
     Column(
-        modifier = Modifier.padding(8.dp)
+        modifier = modifier.padding(8.dp)
     ) {
 
         OutlinedTextField(value = text,
