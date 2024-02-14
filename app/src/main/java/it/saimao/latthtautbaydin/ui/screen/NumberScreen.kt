@@ -132,7 +132,7 @@ fun RandomScreen(onSelectNumber: (Int) -> Unit, modifier: Modifier = Modifier) {
             modifier = Modifier.size(200.dp),
             contentDescription = "Number Image"
         )
-        Spacer(modifier = Modifier.height(32.dp))
+        Spacer(modifier = Modifier.height(48.dp))
         Button(onClick = {
             isSpinning = !isSpinning
             buttonText = if (isSpinning) {
@@ -144,7 +144,7 @@ fun RandomScreen(onSelectNumber: (Int) -> Unit, modifier: Modifier = Modifier) {
         }) {
             Text(
                 text = stringResource(id = buttonText),
-                fontSize = 18.sp, fontWeight = FontWeight.ExtraBold
+                fontSize = 16.sp, fontWeight = FontWeight.ExtraBold
             )
         }
     }
