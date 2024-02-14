@@ -57,13 +57,18 @@ fun ChooseNumberScreen(
     updateNumberScreenTab: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val tabs = listOf("Latt Htaut", "Random")
+    val tabs = listOf(stringResource(id = R.string.latt_htaut), stringResource(id = R.string.spin))
     Log.d("Kham", "Choose Number Screen")
 
     Column(modifier = modifier.fillMaxWidth()) {
         TabRow(selectedTabIndex = numberScreenTab) {
             tabs.forEachIndexed { index, title ->
-                Tab(text = { Text(title) },
+                Tab(text = {
+                    Text(
+                        title, fontSize = 16.sp,
+                        fontWeight = FontWeight.SemiBold
+                    )
+                },
                     selected = numberScreenTab == index,
                     onClick = { updateNumberScreenTab(index) }
                 )
@@ -180,9 +185,11 @@ fun NumberScreen(onSelectNumber: (Int) -> Unit, modifier: Modifier = Modifier) {
                     )
                 },
                 modifier = Modifier
-                    .border(1.dp, MaterialTheme.colorScheme.primary,
+                    .border(
+                        1.dp, MaterialTheme.colorScheme.primary,
 
-                        shape = CutCornerShape(2.dp),)
+                        shape = CutCornerShape(2.dp),
+                    )
                     .size(56.dp)
             ) {
                 Text(
