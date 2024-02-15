@@ -164,7 +164,7 @@ fun SpinScreen(onSelectNumber: (Int) -> Unit, modifier: Modifier = Modifier) {
 fun NumberScreen(onSelectNumber: (Int) -> Unit, modifier: Modifier = Modifier) {
     val number = Utility.getJsonData(LocalContext.current).numberList
     var index = 0
-    val no = 9
+    val no = 6
     LazyVerticalGrid(
         columns = GridCells.Fixed(no),
         verticalArrangement = Arrangement.spacedBy(4.dp),
@@ -174,7 +174,8 @@ fun NumberScreen(onSelectNumber: (Int) -> Unit, modifier: Modifier = Modifier) {
             .padding(8.dp)
             .wrapContentSize(Alignment.Center)
     ) {
-        items(number) {
+        val start = Random.nextInt(0,81 - (no * no));
+        items(number.subList(start, start + (no * no))) {
 
             TextButton(
                 onClick = {
@@ -184,8 +185,8 @@ fun NumberScreen(onSelectNumber: (Int) -> Unit, modifier: Modifier = Modifier) {
                 },
                 modifier = Modifier
                     .border(
-                        1.dp, MaterialTheme.colorScheme.primary,
-                        shape = CutCornerShape(2.dp),
+                        2.dp, MaterialTheme.colorScheme.primary,
+                        shape = RoundedCornerShape(8.dp),
                     )
                     .size(56.dp)
             ) {
