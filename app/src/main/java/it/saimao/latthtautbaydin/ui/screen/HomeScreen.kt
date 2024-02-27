@@ -37,23 +37,22 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import it.saimao.latthtautbaydin.R
+import it.saimao.latthtautbaydin.data.JsonData
 import it.saimao.latthtautbaydin.data.Question
 import it.saimao.latthtautbaydin.ui.Utility
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen(onSelectQuestion: (Int) -> Unit, modifier: Modifier = Modifier) {
+fun HomeScreen(onSelectQuestion: (Int) -> Unit, modifier: Modifier = Modifier, jsonData: JsonData) {
 
-    val questions = Utility.getJsonData(LocalContext.current).questions
+    val questions = jsonData.questions
 
-    var uiState by remember {
-        mutableStateOf(questions)
+    var uiState = remember {
+        questions
     }
     var text by remember {
         mutableStateOf("")
     }
-
-
 
     fun filterList() {
         uiState = if (text.isNotEmpty()) {

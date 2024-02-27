@@ -17,6 +17,8 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
@@ -27,25 +29,31 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import it.saimao.latthtautbaydin.R
+import it.saimao.latthtautbaydin.data.JsonData
 import it.saimao.latthtautbaydin.ui.Utility
 
 @Composable
 fun AnswerScreen(
+    jsonData: JsonData,
     questionNumber: Int,
     answerNumber: Int,
     navigateBack: () -> Unit,
     onShare: (question: String, answer: String) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val jsonData = Utility.getJsonData(LocalContext.current)
 
-    val answerString = jsonData.answers.first {
-        it.questionNo == questionNumber && it.answerNo == answerNumber
-    }.answerResult
 
-    val questString = jsonData.questions.first {
-        it.questionNo == questionNumber
-    }.questionName
+    val answerString = remember {
+        jsonData.answers.first {
+            it.questionNo == questionNumber && it.answerNo == answerNumber
+        }.answerResult
+    }
+
+    val questString = remember {
+        jsonData.questions.first {
+            it.questionNo == questionNumber
+        }.questionName
+    }
 
     Column(
         modifier = modifier
@@ -91,8 +99,6 @@ fun AnswerScreen(
                     text = answerString,
                     modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
                 )
-                Log.d("Kham", answerString)
-                Log.d("Kham", answerNumber.toString())
 
             }
         }
@@ -130,5 +136,11 @@ fun AnswerScreen(
 @Preview
 @Composable
 fun AnswerScreenPreview() {
-    AnswerScreen(questionNumber = 1, answerNumber = 1, {}, { a, b -> })
+    AnswerScreen(
+        jsonData = JsonData(emptyList(), emptyList(), emptyList()),
+        questionNumber = 1,
+        answerNumber = 1,
+        {},
+        { a, b -> },
+    )
 }

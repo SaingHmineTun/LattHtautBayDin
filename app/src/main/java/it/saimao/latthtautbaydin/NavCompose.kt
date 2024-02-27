@@ -1,6 +1,7 @@
 package it.saimao.latthtautbaydin
 
 import android.content.Intent
+import android.util.Log
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -24,6 +25,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import it.saimao.latthtautbaydin.ui.LattHtautViewModel
+import it.saimao.latthtautbaydin.ui.Utility
 import it.saimao.latthtautbaydin.ui.screen.AnswerScreen
 import it.saimao.latthtautbaydin.ui.screen.ChooseNumberScreen
 import it.saimao.latthtautbaydin.ui.screen.HomeScreen
@@ -40,6 +42,7 @@ fun NavCompose(modifier: Modifier = Modifier) {
     val viewModel: LattHtautViewModel = viewModel()
     val navController = rememberNavController()
     val uiState by viewModel.uiState
+    val jsonData = Utility.getJsonData(LocalContext.current)
 
     Scaffold(
         topBar = {
@@ -68,19 +71,22 @@ fun NavCompose(modifier: Modifier = Modifier) {
             navController = navController,
             startDestination = Destinations.Home
         ) {
+
             composable(Destinations.Home) {
-                viewModel.setAppName(R.string.select_question)
+//                viewModel.setAppName(R.string.select_question)
                 HomeScreen(
                     onSelectQuestion = {
                         viewModel.updateQuestion(it)
                         navController.navigate(Destinations.LattHtaut)
                     },
+                    jsonData = jsonData,
                     modifier = Modifier.padding(paddingValues)
                 )
             }
             composable(Destinations.LattHtaut) {
-                viewModel.setAppName(R.string.choose_number)
+//                viewModel.setAppName(R.string.choose_number)
                 ChooseNumberScreen(
+                    jsonData = jsonData,
                     onSelectNumber = {
                         viewModel.updateNumber(it)
                         navController.navigate(Destinations.Answer)
@@ -91,9 +97,10 @@ fun NavCompose(modifier: Modifier = Modifier) {
                 )
             }
             composable(Destinations.Answer) {
-                viewModel.setAppName(R.string.your_answer)
                 val context = LocalContext.current
-                AnswerScreen(questionNumber = uiState.question,
+                AnswerScreen(
+                    jsonData = jsonData,
+                    questionNumber = uiState.question,
 
                     answerNumber = uiState.number, navigateBack = {
                         navController.popBackStack(Destinations.Home, false)

@@ -28,6 +28,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -40,6 +41,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import it.saimao.latthtautbaydin.R
+import it.saimao.latthtautbaydin.data.JsonData
 import it.saimao.latthtautbaydin.ui.Utility
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
@@ -49,14 +51,17 @@ import kotlin.random.Random
 
 @Composable
 fun ChooseNumberScreen(
+    jsonData: JsonData,
     onSelectNumber: (Int) -> Unit,
-
-    numberScreenTab: Int = 0,
+    numberScreenTab: Int = 1,
     updateNumberScreenTab: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val tabs = listOf(stringResource(id = R.string.latt_htaut), stringResource(id = R.string.spin))
-    Log.d("Kham", "Choose Number Screen")
+
+    val list = listOf(stringResource(id = R.string.latt_htaut), stringResource(id = R.string.spin))
+    val tabs = remember {
+        list
+    }
 
     Column(modifier = modifier.fillMaxWidth()) {
         TabRow(selectedTabIndex = numberScreenTab) {
@@ -73,8 +78,13 @@ fun ChooseNumberScreen(
             }
         }
         when (numberScreenTab) {
-            0 -> NumberScreen(onSelectNumber = onSelectNumber)
-            1 -> SpinScreen(onSelectNumber = onSelectNumber)
+            0 -> {
+                NumberScreen(onSelectNumber = onSelectNumber, jsonData = jsonData)
+            }
+
+            1 -> {
+                SpinScreen(onSelectNumber = onSelectNumber)
+            }
         }
     }
 }
@@ -82,18 +92,22 @@ fun ChooseNumberScreen(
 @Composable
 fun SpinScreen(onSelectNumber: (Int) -> Unit, modifier: Modifier = Modifier) {
 
-    val imageResources = arrayOf(
-        R.drawable.one,
-        R.drawable.two,
-        R.drawable.three,
-        R.drawable.four,
-        R.drawable.five,
-        R.drawable.six,
-        R.drawable.seven,
-        R.drawable.eight,
-        R.drawable.nine,
-        R.drawable.ten
-    )
+    val imageResources by remember {
+        mutableStateOf(
+            arrayOf(
+                R.drawable.one,
+                R.drawable.two,
+                R.drawable.three,
+                R.drawable.four,
+                R.drawable.five,
+                R.drawable.six,
+                R.drawable.seven,
+                R.drawable.eight,
+                R.drawable.nine,
+                R.drawable.ten
+            )
+        )
+    }
 
     var imageResource by rememberSaveable {
         mutableIntStateOf(imageResources[0])
@@ -161,12 +175,20 @@ fun SpinScreen(onSelectNumber: (Int) -> Unit, modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun NumberScreen(onSelectNumber: (Int) -> Unit, modifier: Modifier = Modifier) {
-    val number = Utility.getJsonData(LocalContext.current).numberList
-    var index = 0
-    val no = 6
+fun NumberScreen(onSelectNumber: (Int) -> Unit, modifier: Modifier = Modifier, jsonData: JsonData) {
+    var thirtySix: List<String> by remember {
+        mutableStateOf(emptyList())
+    }
+
+    LaunchedEffect(Unit) {
+        val no = 6
+        val number = jsonData.numberList
+        val start = Random.nextInt(0, number.size - (no * no))
+        thirtySix = number.subList(start, start + (no * no))
+    }
+
     LazyVerticalGrid(
-        columns = GridCells.Fixed(no),
+        columns = GridCells.Fixed(6),
         verticalArrangement = Arrangement.spacedBy(4.dp),
         horizontalArrangement = Arrangement.spacedBy(4.dp),
         modifier = modifier
@@ -174,34 +196,36 @@ fun NumberScreen(onSelectNumber: (Int) -> Unit, modifier: Modifier = Modifier) {
             .padding(8.dp)
             .wrapContentSize(Alignment.Center)
     ) {
-        val start = Random.nextInt(0,81 - (no * no));
-        items(number.subList(start, start + (no * no))) {
-
-            TextButton(
-                onClick = {
-                    onSelectNumber.invoke(
-                        Utility.convertToEngNum(it)
-                    )
-                },
-                modifier = Modifier
-                    .border(
-                        2.dp, MaterialTheme.colorScheme.primary,
-                        shape = RoundedCornerShape(8.dp),
-                    )
-                    .size(56.dp)
-            ) {
-                Text(
-                    text = it,
-                    fontSize = 10.sp
-                )
-            }
-            index++
+        items(thirtySix) {
+            NumberButton(it, onSelectNumber)
         }
+    }
+}
+
+@Composable
+fun NumberButton(number: String, onSelectNumber: (Int) -> Unit) {
+    TextButton(
+        onClick = {
+            onSelectNumber.invoke(
+                Utility.convertToEngNum(number)
+            )
+        },
+        modifier = Modifier
+            .border(
+                2.dp, MaterialTheme.colorScheme.primary,
+                shape = RoundedCornerShape(8.dp),
+            )
+            .size(56.dp)
+    ) {
+        Text(
+            text = number,
+            fontSize = 10.sp
+        )
     }
 }
 
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun LattHtautScreenPreview() {
-    NumberScreen(onSelectNumber = {})
+    NumberScreen(onSelectNumber = {}, jsonData = JsonData(emptyList(), emptyList(), emptyList()))
 }
