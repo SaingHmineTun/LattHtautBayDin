@@ -103,7 +103,7 @@ fun HomeScreen(onSelectQuestion: (Int) -> Unit, modifier: Modifier = Modifier, j
         Spacer(modifier = Modifier.height(16.dp))
         CardList(listOfQuestion = uiState, onSelectQuestion = onSelectQuestion)
     }
-    
+
 }
 
 
@@ -127,7 +127,7 @@ fun CardList(
     modifier: Modifier = Modifier
 ) {
     LazyColumn {
-        items(listOfQuestion) {
+        items(listOfQuestion, key = { it.questionNo }) {
             CardItem(
                 question = it,
                 onSelectQuestion = onSelectQuestion,
