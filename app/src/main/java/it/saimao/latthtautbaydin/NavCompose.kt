@@ -2,6 +2,7 @@ package it.saimao.latthtautbaydin
 
 import android.content.Intent
 import android.util.Log
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -50,7 +51,7 @@ fun NavCompose(modifier: Modifier = Modifier) {
                 Row(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    if (uiState.appName != R.string.select_question) {
+                    if (uiState.appName == R.string.choose_number) {
                         IconButton(onClick = { navController.navigateUp() }) {
                             Icon(
                                 imageVector = Icons.Default.ArrowBack,
@@ -73,7 +74,7 @@ fun NavCompose(modifier: Modifier = Modifier) {
         ) {
 
             composable(Destinations.Home) {
-//                viewModel.setAppName(R.string.select_question)
+                viewModel.setAppName(R.string.select_question)
                 HomeScreen(
                     onSelectQuestion = {
                         viewModel.updateQuestion(it)
@@ -84,7 +85,7 @@ fun NavCompose(modifier: Modifier = Modifier) {
                 )
             }
             composable(Destinations.LattHtaut) {
-//                viewModel.setAppName(R.string.choose_number)
+                viewModel.setAppName(R.string.choose_number)
                 ChooseNumberScreen(
                     jsonData = jsonData,
                     onSelectNumber = {
@@ -97,6 +98,9 @@ fun NavCompose(modifier: Modifier = Modifier) {
                 )
             }
             composable(Destinations.Answer) {
+
+
+                viewModel.setAppName(R.string.your_answer)
                 val context = LocalContext.current
                 AnswerScreen(
                     jsonData = jsonData,

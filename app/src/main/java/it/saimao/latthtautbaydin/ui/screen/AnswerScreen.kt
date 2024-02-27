@@ -1,6 +1,7 @@
 package it.saimao.latthtautbaydin.ui.screen
 
 import android.util.Log
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -53,6 +54,10 @@ fun AnswerScreen(
         jsonData.questions.first {
             it.questionNo == questionNumber
         }.questionName
+    }
+
+    BackHandler(enabled = true) {
+        navigateBack()
     }
 
     Column(
