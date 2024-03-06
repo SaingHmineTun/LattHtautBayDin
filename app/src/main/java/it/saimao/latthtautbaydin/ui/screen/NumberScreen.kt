@@ -187,7 +187,15 @@ fun NumberScreen(onSelectNumber: (Int) -> Unit, modifier: Modifier = Modifier, j
         val start = Random.nextInt(0, number.size - (no * no))
         thirtySix = number.subList(start, start + (no * no))
     }
+    NumberGrid(thirtySix, onSelectNumber)
+}
 
+@Composable
+fun NumberGrid(
+    thirtySix: List<String>,
+    onSelectNumber: (Int) -> Unit,
+    modifier: Modifier = Modifier
+) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(6),
         verticalArrangement = Arrangement.spacedBy(4.dp),
